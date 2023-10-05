@@ -45,6 +45,29 @@ body {
     align-items: center; 
 }
 
+.button {
+    flex: 1 1 auto;
+    background-color: rgb(70, 61, 56);
+    color: rgb(234, 232, 229);
+    width: 60px;
+    border-radius: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.1s;
+
+}
+.colored div {
+    background-color: rgb(136, 134, 131);
+    color: rgb(255, 255, 255);
+}
+
+.clicked-button {
+    background-color: #d78ba9 !important;
+}
+
 .output-screen {
     width: 95%;
     height: 80%;
@@ -85,25 +108,25 @@ body {
     /* margin: 0 10px; */
     
 }
-.columns div {
+/* .columns div {
     flex: 1 1 auto;
     background-color: rgb(70, 61, 56);
     color: bisque;
     width: 60px;
-    /* height: 80px; */
     border-radius: 5%;
-    /* margin: 0 auto; */
+
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-}
-.button:hover {
+} */
+/* .button:active:hover {
     background-color: brown;
-}
+} */
 
-.colored div {
+
+/* .colored div {
     background-color: rgb(136, 134, 131);
     color: rgb(255, 255, 255);
-}
+} */

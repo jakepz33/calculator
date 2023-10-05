@@ -7,11 +7,9 @@ console.log(output.textContent);
 // use an array method to keep a running output of function?
 var arrayButtons = []
 
-function addition() {
-
-}
 
 let calculator = {
+    zero: "0",
     one: "1",
     two: "2",
     three: "3",
@@ -21,81 +19,121 @@ let calculator = {
     seven: "7",
     eight: "8",
     nine: "9",
+
 }
 
 
 function operation(num1, num2, operator) {
-    let result;
-
-    switch (operator) {
+    let firstArg = parseInt(num1);
+    let secondArg = parseInt(num2);
+    result = 0
+    switch(operator) {
         case "+":
-            result = num1 + num2;
+            result = firstArg+secondArg;
             break;
         case "-":
-            result = num1 - num2;
+            result = firstArg-secondArg;
             break;
         case "*":
-            result = num1 * num2;
-            break
-        case "/":
-            result = num1 / num2;
+            result = firstArg*secondArg;
             break;
-        default:
-            throw new Error("invalid Operation");
-
+        case "/":
+            result = firstArg/secondArg;
+            break;
+        case "%":
+            result = (firstArg/100) * secondArg;
+            break;
     }
     arrayButtons.push(result);
+    console.log("result", result);
+    console.log(arrayButtons);
+    addToScreen(result);
+    numTwo = "";
+    console.log(numTwo);
     return result;
 }
 
-console.log(operation(3, 20, "*"));
-console.log(arrayButtons.length);
+let numOne = "";
+let numTwo = "";
+let operator = "";
 
-// let numOne = calculator["three"].toString();
-// let numTwo = calculator["seven"].toString();
-
-// console.log(numOne+numTwo);
-
-// arrayButtons.push(3)
-// arrayButtons.push(5)
-// arrayButtons.push(8)
-
-console.log(arrayButtons);
+console.log("Current array:", arrayButtons);
 
 //ADD BUTTON TO SCREEN
 output.textContent = "";
 
-let numOne = 0;
-let numTwo = 0;
-let operator = null;
-
-console.log(operator)
-
-function getInitialValues(item) {
-    // output.textContent = ""
-    output.textContent = output.textContent + item;
+function addToScreen(item) {
+    output.textContent = item;
     let numOuput = parseInt(output.textContent);
-    console.log('TYPE', numOuput);
-    //console.log('Output', numOuput);
+    console.log("Screen view:", numOuput);
+}
+
+function renewScreen() {
+    output.textContent = "";
+}
+
+function clearVariables(){
+    numOne = "";
+    numTwo = "";
+    operator = "";
+    output.textContent = "";
+    arrayButtons = []
 }
 
 const buttons = document.querySelectorAll('.button');
+
 buttons.forEach(button => {
+    button.addEventListener('mousedown', () => {
+        button.classList.add('clicked-button');
+    });
+    button.addEventListener('mouseup', () => {
+        button.classList.remove('clicked-button');
+    })
+
     button.addEventListener('click', () => {
         const buttonText = button.textContent;
-        if(Object.values(calculator).includes(buttonText)) { 
-            console.log('is a number');
-            getInitialValues(buttonText)
-
+        if (Object.values(calculator).includes(buttonText)) {
+            console.log('In object');
+            if (arrayButtons.length === 0) {
+                numOne = numOne + buttonText;
+                console.log('NumOne:', numOne);
+                //arrayButtons.push(numOne);
+                addToScreen(numOne);
+            } else {
+                numOne = arrayButtons[arrayButtons.length-1];
+                // clear screen function
+                numTwo = numTwo + buttonText;
+                console.log("numOne:", numOne);
+                console.log("numtwo:", numTwo);
+                addToScreen(numTwo);
+            }
         } else {
-            console.log("not a number");
-            operator = buttonText;
-            //console.log(operator);
-            // call button
-        }
+            if(buttonText ==="C"){
+                clearVariables();
+            }else if(numTwo === "") {
+                operator = buttonText;
+                if (arrayButtons.length === 0) {
+                    arrayButtons.push(numOne)
+                }
+                //arrayButtons.push(numOne)
+                console.log(arrayButtons);
+                console.log(operator);
+                console.log("Need num2 value:");
+            } else {
+                if(buttonText === "=") {
+                    operation(numOne, numTwo, operator);
+                } else {
 
-        //console.log(typeof buttonText);
-        ;
+                    operation(numOne, numTwo, operator)
+                    operator = buttonText;
+                    console.log('Operator', operator);
+                    //arrayButtons.push(numOne)
+                    console.log(arrayButtons);
+                    //operation(numOne, numTwo, operator);
+                }
+            }
+        
+        }
     })
 })
 
