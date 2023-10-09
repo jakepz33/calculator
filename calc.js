@@ -96,15 +96,15 @@ buttons.forEach(button => {
             console.log('In object');
             if (arrayButtons.length === 0) {
                 numOne = numOne + buttonText;
-                console.log('NumOne:', numOne);
+                //console.log('NumOne:', numOne);
                 //arrayButtons.push(numOne);
                 addToScreen(numOne);
             } else {
                 numOne = arrayButtons[arrayButtons.length-1];
                 // clear screen function
                 numTwo = numTwo + buttonText;
-                console.log("numOne:", numOne);
-                console.log("numtwo:", numTwo);
+                //console.log("numOne:", numOne);
+                //console.log("numtwo:", numTwo);
                 addToScreen(numTwo);
             }
         } else {
@@ -117,7 +117,9 @@ buttons.forEach(button => {
                 }
                 //arrayButtons.push(numOne)
                 console.log(arrayButtons);
-                console.log(operator);
+                console.log("Operator:", operator);
+                console.log("NumOne:", numOne);
+                console.log("NumTwo:", numTwo);
                 console.log("Need num2 value:");
             } else {
                 if(buttonText === "=") {
@@ -126,7 +128,7 @@ buttons.forEach(button => {
 
                     operation(numOne, numTwo, operator)
                     operator = buttonText;
-                    console.log('Operator', operator);
+                    console.log('Operator without equal sign:', operator);
                     //arrayButtons.push(numOne)
                     console.log(arrayButtons);
                     //operation(numOne, numTwo, operator);
