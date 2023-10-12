@@ -1,10 +1,12 @@
 let output = document.querySelector(".output")
-//let outputNum = "";
-//output.textContent = outputNum;
 console.log(output.textContent);
+let numOne = "";
+let numTwo = "";
+let operator = "";
+let isNegative = false;
+output.textContent = "";
 
-// every button pressed gets stored into an array,
-// use an array method to keep a running output of function?
+
 var arrayButtons = []
 
 function addition() {
@@ -26,7 +28,7 @@ let calculator = {
 }
 
 
-function operation(num1, num2, operator) {
+function operation(num1, num2, op) {
     let firstArg = parseFloat(num1);
     let secondArg = parseFloat(num2);
     result = 0
@@ -53,40 +55,38 @@ function operation(num1, num2, operator) {
     return result;
 }
 
-let numOne = "";
-let numTwo = "";
-let operator = "";
-let isNegative = false;
+// let numOne = "";
+// let numTwo = "";
+// let operator = "";
+// let isNegative = false;
 
-// arrayButtons.push(3)
-// arrayButtons.push(5)
-// arrayButtons.push(8)
+
 
 console.log(arrayButtons);
 
 //ADD BUTTON TO SCREEN
-output.textContent = "";
+//output.textContent = "";
 
-
+// function to add inputs to screen
 function addToScreen(item) {
-    // if(numTwo ==="") {
-    //     renewScreen();
-    // }
-    if(item==="-" && numOne===""){
+    if(item==="-" && numOne===""){          // if negative button(+/-) is clicked and numOne not assigned, outputs "-" sign
         console.log('ItemOutput:', item);
         output.textContent = item;
-    }else if(item==="-" && numTwo===""){
+    }else if(item==="-" && numTwo===""){   // if negative button(+/-) is clicked & numtwo not assigned, output "-" sign
         console.log('ItemOutput2:', item);
         output.textContent = item;
     }else{
-        if(isNegative === true && numOne!=""){
+        if(isNegative === true && numOne!=""){ // if negative is true and numOne is not empty, if number is less than 0,
             //isNegative = false;
             output.textContent = "";
-            if(item < 0) {
-                output.textContent = "-"+((-1)*item);
+            if(item < 0) { //if item is negative
+                output.textContent = "-"+((-1)*item); // would make positive? but has negative sign right there.    
                 console.log('Negative num', output.textContent);
             }else{
+                console.log("func2 item:", item)  // makes a positive number already in screen negative. shows as negative but does make item neg
                 output.textContent = "-"+ item;
+                //numOne = parseFloat(output.textContent)
+                console.log("NumOne:", numOne);
                 console.log('Negative num2', output.textContent)
             };
             
@@ -97,20 +97,17 @@ function addToScreen(item) {
                 console.log('Negative num', output.textContent);
             }else{
                 output.textContent = "-"+ item;
-                console.log('Negative num2', output.textContent)
+                //numOne = parseFloat(output.textContent);
+                console.log('changing this one', output.textContent)
             };
         }else{
             output.textContent = item;
             let numOuput = parseFloat(output.textContent);
             console.log("Total Solution", output.textContent);
         }
-        //output.textContent = item;
-        //let numOuput = parseInt(output.textContent);
-        //console.log("numOutputty", output.textContent);
+        
     };
-    // output.textContent = item;
-    // let numOuput = parseInt(output.textContent);
-    // console.log("numOutput", numOuput);
+    
 }
 
 function renewScreen() {
@@ -131,7 +128,7 @@ buttons.forEach(button => {
         const buttonText = button.textContent;
         if (Object.values(calculator).includes(buttonText)) {
             console.log('In object');
-            if (arrayButtons.length === 0) {
+            if (arrayButtons.length === 0) { // if no items in array
                 numOne = numOne + buttonText;
                 console.log('NumOne:', numOne);
                 //arrayButtons.push(numOne);
@@ -159,11 +156,13 @@ buttons.forEach(button => {
                 operator = buttonText;
                 if (arrayButtons.length === 0) {
                     if(isNegative){
+                        console.log("is negative function")
                         postNegative(); // function makes item negative and adds to list
                         // numOne = (-1) * parseInt(numOne);
                         // arrayButtons.push(numOne)
                         // isNegative = false;
                     }else{
+                        console.log("else arrayButtons.push")
                         arrayButtons.push(numOne) // if not negative, push as normal
                     }
                 }
@@ -197,29 +196,30 @@ buttons.forEach(button => {
 })
 
 function makeNegative() {
-    if(output.textContent==="") {
-        console.log('this works')
+    if(output.textContent==="") { // if screen is empty, return negative
+        console.log('made negative')
         isNegative = true;
         let negString = "-"
         return(negString);
     }else{
-        if(operator!="" && numTwo===""){
-            isNegative = true;
+        if(operator!="" && numTwo===""){ // if operator is not empty, and numtwo is empty, make negative true && return negative
+            isNegative = true;          // return "-" before anything is inserted into numTwo
             return "-";
         }else{
-            console.log('didnt work');
-            let changedNum = (-1) * parseFloat(output.textContent);
-            isNegative = true;
-            return changedNum; // return output.text as a negative number
+            if(isNegative){
+                let changedNum = (-1) * parseFloat(output.textContent);
+                console.log("changing back to positive:")
+                isNegative = false;
+                return changedNum;
+            }else {
+                console.log('Change current screen value to negative.');
+                let changedNum = (-1) * parseFloat(output.textContent);
+                isNegative = true;
+                return changedNum; // return output.text as a negative number
+            }
+
         }
-        // console.log('didnt work');
-        // let changedNum = (-1) * parseInt(output.textContent);
-        // isNegative = true;
-        // return changedNum; // return output.text as a negative number
     }
-    // let changedNum = (-1) * parseInt(output.textContent);
-    //isNegative = true;
-    // return changedNum;
 }
 
 function postNegative() {
