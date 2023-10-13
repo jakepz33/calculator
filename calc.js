@@ -51,6 +51,7 @@ function operation(num1, num2, op) {
     console.log(arrayButtons);
     addToScreen(result);
     numTwo = "";
+    operator = ""; 
     console.log(numTwo);
     return result;
 }
@@ -130,7 +131,10 @@ const buttons = document.querySelectorAll('.button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const buttonText = button.textContent;
-
+        let activeButton = document.querySelector('.op-clicked');
+        if(activeButton){
+            activeButton.classList.remove('op-clicked');
+        }
         /*  1. Checks to see if the value of the button is included in the object of numbers.
             2. Checks to see if there are any stored values in arrayButtons. If list is empty
             numOne is assigned value of pressed button and appends other numbers to it.
@@ -143,24 +147,33 @@ buttons.forEach(button => {
             : (numOne = arrayButtons[arrayButtons.length-1], numTwo = numTwo + buttonText, addToScreen(numTwo));
             
         } else {
+
             if(buttonText ==="C"){
                 clearVariables();
+
+            }else if(buttonText === "Delete"){
+                removeLastDigit() // remove digit function
+
             }else if(buttonText==="."){
                 decimalButton();
+
             }else if(buttonText==="+/-"){
                let negativeNum = makeNegative();
                console.log('Is negative:', isNegative);
                addToScreen(negativeNum);
+
             }else if(numTwo === "" && numOne !== "") { // any regular operator case, handles if equal sign is pushed before num2
                 operator = buttonText;
+                button.classList.add('op-clicked'); // adds clicked class
+                console.log('op-clicked')
                 if (arrayButtons.length === 0) {
-                    isNegative 
-                    ? (console.log("is a negative function"), postNegative())
+                    isNegative ? (console.log("is a negative function"), postNegative())
                     : (console.log("Pushing array as normal"), arrayButtons.push(numOne));
                 }
                 console.log(arrayButtons);
                 console.log(operator);
                 console.log("numTwo is empty")
+
             } else {
                 if(buttonText === "=") {
                     if(numOne ==="") {
@@ -171,18 +184,19 @@ buttons.forEach(button => {
                         postSecondNegative();
                     }
                     operation(numOne, numTwo, operator);
-                } else {
+                } else { // continous operation with no reset
                     if(isNegative){
                         postSecondNegative();
                     }
-                    //postNegative();
+                    if(numOne===""){
+                        return
+                    }
                     console.log('NumOne', numOne, 'Numtwo', numTwo, 'Operator', operator);
                     operation(numOne, numTwo, operator)
                     operator = buttonText;
+                    button.classList.add('op-clicked') // adds clicked class
                     console.log('Operator', operator);
-                    //arrayButtons.push(numOne)
                     console.log(arrayButtons);
-                    //operation(numOne, numTwo, operator);
                 }
             }
         
@@ -200,6 +214,11 @@ function makeNegative() {
         if(operator!="" && numTwo===""){ // if operator is not empty, and numtwo is empty, make negative true && return negative
             isNegative = true;          // return "-" before anything is inserted into numTwo
             return "-";
+        }else if(operator ==="" && numTwo===""){ // if user wants to make sum negative
+            let changedNum = (-1) * parseFloat(output.textContent);
+            arrayButtons[arrayButtons.length-1] = arrayButtons[arrayButtons.length-1] * (-1);
+            console.log("changedNum:", numOne);
+            return changedNum
         }else{
             if(isNegative){
                 let changedNum = (-1) * parseFloat(output.textContent);
@@ -228,15 +247,7 @@ function postSecondNegative() {
     isNegative = false;
 }
 
-//makeNegative();
 
-
-
-// console.log(calculator["three"],calculator["three"].split(', '))
-
-// need decimal button and delete button
-
-//
 function decimalButton() {
     if(operator ==="" && !numOne.includes('.')){
         numOne += '.';
@@ -244,5 +255,24 @@ function decimalButton() {
     }else if (operator !== "" && !numTwo.includes('.')){
         numTwo += '.';
         addToScreen(numTwo);
+    }
+}
+
+function removeLastDigit() {
+    if(operator==="" && numTwo=="") {
+        if(numOne.length > 0) {
+            numOne = numOne.slice(0, -1);
+            console.log("numOne", numOne);
+            addToScreen(numOne);
+        }
+        console.log("hello")
+    }else{
+        if(numTwo.length > 0) {
+            numTwo = numTwo.slice(0, -1);
+            console.log("numTwo", numTwo);
+            addToScreen(numTwo);
+        } else {
+            clearVariables(); // if delete is pressed on sum
+        }
     }
 }
